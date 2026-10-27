@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My TVET Dashboard</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, "Segoe UI", system-ui, sans-serif;
+      background: #eaf4fb;
+      color: #1f2328;
+      min-height: 100vh;
+      padding: 2rem 1rem;
+    }
+
+    /* ── Header ── */
+    header {
+      max-width: 900px;
+      margin: 0 auto 2rem;
+    }
+    header h1 {
+      font-size: 2rem;
+      font-weight: 800;
+      color: #0d2b55;
+    }
+    header p {
+      margin-top: 0.25rem;
+      color: #57606a;
+      font-size: 0.95rem;
+    }
+
+    /* ── Cards Row ── */
+    .cards-row {
+      display: flex;
+      gap: 1.25rem;
+      max-width: 900px;
+      margin: 0 auto 2rem;
+      flex-wrap: wrap;
+    }
+
+    .card {
+      flex: 1 1 200px;
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 1.5rem 1.25rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      border-top: 4px solid var(--accent);
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .card .card-icon { font-size: 1.75rem; line-height: 1; }
+    .card .card-label {
+      font-size: 0.78rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: #57606a;
+    }
+    .card .card-value {
+      font-size: 1.85rem;
+      font-weight: 800;
+      color: var(--accent);
+      line-height: 1.1;
+    }
+
+    .card.blue   { --accent: #2563eb; }
+    .card.orange { --accent: #ea580c; }
+    .card.yellow { --accent: #b45309; }
+
+    /* ── Checklist Section ── */
+    .checklist-section {
+      max-width: 900px;
+      margin: 0 auto;
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 1.75rem 1.5rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    .checklist-section h2 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #0d2b55;
+      margin-bottom: 1.25rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 2px solid #e5e7eb;
+    }
+
+    .checklist {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    .checklist li label {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.65rem 0.85rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.95rem;
+      transition: background 0.15s;
+      border: 1px solid transparent;
+    }
+    .checklist li label:hover { background: #f0f7ff; border-color: #bfdbfe; }
+
+    .checklist li input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      accent-color: #2563eb;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .checklist li label.done {
+      color: #9ca3af;
+      text-decoration: line-through;
+      background: #f9fafb;
+    }
+
+    .checklist li span.badge {
+      margin-left: auto;
+      font-size: 0.72rem;
+      font-weight: 600;
+      padding: 0.15rem 0.55rem;
+      border-radius: 999px;
+    }
+    .badge.done-badge   { background: #dcfce7; color: #166534; }
+    .badge.pending-badge{ background: #fff3cd; color: #92400e; }
+
+    footer {
+      max-width: 900px;
+      margin: 2rem auto 0;
+      text-align: center;
+      font-size: 0.78rem;
+      color: #9ca3af;
+      padding-top: 1rem;
+      border-top: 1px solid #e5e7eb;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>My TVET Dashboard</h1>
+    <p>Workshop preparation overview — track registrations, tasks, and readiness at a glance.</p>
+  </header>
+
+  <!-- Summary Cards -->
+  <section class="cards-row">
+    <div class="card blue">
+      <span class="card-icon">👥</span>
+      <span class="card-label">Students Registered</span>
+      <span class="card-value">42 / 50</span>
+    </div>
+    <div class="card orange">
+      <span class="card-icon">📋</span>
+      <span class="card-label">Tasks Remaining</span>
+      <span class="card-value" id="tasks-remaining">5</span>
+    </div>
+    <div class="card yellow">
+      <span class="card-icon">🏷️</span>
+      <span class="card-label">Workshop Status</span>
+      <span class="card-value" id="workshop-status">🟡 In Preparation</span>
+    </div>
+  </section>
+
+  <!-- Preparation Checklist -->
+  <section class="checklist-section">
+    <h2>📝 Preparation Checklist</h2>
+    <ul class="checklist">
+      <li><label class="done"><input type="checkbox" class="task-item" checked /><span>Book the venue</span><span class="badge done-badge">Done</span></label></li>
+      <li><label class="done"><input type="checkbox" class="task-item" checked /><span>Confirm facilitator availability</span><span class="badge done-badge">Done</span></label></li>
+      <li><label class="done"><input type="checkbox" class="task-item" checked /><span>Send registration link to students</span><span class="badge done-badge">Done</span></label></li>
+      <li><label class="done"><input type="checkbox" class="task-item" checked /><span>Prepare workshop materials / slides</span><span class="badge done-badge">Done</span></label></li>
+      <li><label class="done"><input type="checkbox" class="task-item" checked /><span>Set up equipment (projector, laptops)</span><span class="badge done-badge">Done</span></label></li>
+      <li><label class="done"><input type="checkbox" class="task-item" checked /><span>Send reminder email to registered students</span><span class="badge done-badge">Done</span></label></li>
+      <li><label class="done"><input type="checkbox" class="task-item" checked /><span>Confirm catering arrangements</span><span class="badge done-badge">Done</span></label></li>
+      <li><label><input type="checkbox" class="task-item" /><span>Print attendance sheet</span><span class="badge pending-badge">Pending</span></label></li>
+      <li><label><input type="checkbox" class="task-item" /><span>Test AV equipment</span><span class="badge pending-badge">Pending</span></label></li>
+      <li><label><input type="checkbox" class="task-item" /><span>Brief facilitators on agenda</span><span class="badge pending-badge">Pending</span></label></li>
+      <li><label><input type="checkbox" class="task-item" /><span>Prepare student name badges</span><span class="badge pending-badge">Pending</span></label></li>
+      <li><label><input type="checkbox" class="task-item" /><span>Finalise workshop agenda</span><span class="badge pending-badge">Pending</span></label></li>
+    </ul>
+  </section>
+
+  <footer>Made with IBM Bob</footer>
+
+  <script>
+    function updateDashboard() {
+      const checkboxes = document.querySelectorAll('.task-item');
+      const remaining = Array.from(checkboxes).filter(cb => !cb.checked).length;
+
+      document.getElementById('tasks-remaining').textContent = remaining;
+      document.getElementById('workshop-status').textContent =
+        remaining === 0 ? '🟢 Ready' : '🟡 In Preparation';
+
+      // Update badge and label style on each item
+      checkboxes.forEach(cb => {
+        const label = cb.closest('label');
+        const badge = label.querySelector('.badge');
+        if (cb.checked) {
+          label.classList.add('done');
+          badge.textContent = 'Done';
+          badge.className = 'badge done-badge';
+        } else {
+          label.classList.remove('done');
+          badge.textContent = 'Pending';
+          badge.className = 'badge pending-badge';
+        }
+      });
+    }
+
+    // Wire up all checkboxes
+    document.querySelectorAll('.task-item').forEach(cb => {
+      cb.addEventListener('change', updateDashboard);
+    });
+
+    // Set correct initial state
+    updateDashboard();
+  </script>
+
+</body>
+</html>
